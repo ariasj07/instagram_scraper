@@ -10,4 +10,7 @@ You need to follow a few steps
 - Go to Instagram
 - Open "Storage" in the web console (Pressing f12 usually)
 - Go to Cookies, select the one who refers to instagram.com
-<img width="1001" height="458" alt="imagen" src="https://github.com/user-attachments/assets/a76aa00b-0516-488a-8ae3-4efd0e85743b" />
+- Get the "csrftoken" and the "sessionid"
+**Those tokens eventually are going to expire** so, sometimes depending on your browser it'll tell you when are going to expire (usually in the next 1-2 hours)
+<img width="1024" height="493" alt="imagen" src="https://github.com/user-attachments/assets/8c92c258-4310-4212-bd7b-af492079153a" />
+
