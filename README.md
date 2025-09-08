@@ -15,6 +15,7 @@ You need to follow a few steps
 <img width="1024" height="493" alt="imagen" src="https://github.com/user-attachments/assets/8c92c258-4310-4212-bd7b-af492079153a" />
 
 Once you have them, create an instance of the class, it needs 4 arguments, one is not **mandatory**, since it has a default value
+
 <img width="394" height="243" alt="imagen" src="https://github.com/user-attachments/assets/2dc93593-0453-490d-950f-89ec904f054e" />
 
 As you can see, you need to put these values, and the username to fetch posts
