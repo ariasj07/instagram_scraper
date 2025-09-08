@@ -1,11 +1,7 @@
 import os.path
-from types import NoneType
-
 import requests
 import json
-import random
 
-from playwright.sync_api import expect
 
 
 class InstagramScraper:
