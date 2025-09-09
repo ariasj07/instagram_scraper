@@ -18,6 +18,7 @@ Once you have them, create an instance of the class, it needs 3 arguments
 
 <img width="394" height="243" alt="imagen" src="https://github.com/user-attachments/assets/2dc93593-0453-490d-950f-89ec904f054e" />
 
+> ```count``` parameter it's not longer required
 As you can see, you need to put these values, and the username to fetch posts
 
 - sessionid: Your cookie
