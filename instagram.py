@@ -31,7 +31,7 @@ class InstagramScraper:
            "X-CSRFToken": self.cookies["csrftoken"],
         }
 
-    def get_all_images_link(self):
+    def get_all_media_links(self):
         while True:
             res = self.session.post(self.base_url, cookies=self.cookies, headers=self.headers, data=self.body)
             content = res.json()
@@ -43,6 +43,8 @@ class InstagramScraper:
                         for c in img["carousel_media"]:
                             url = c["image_versions2"]["candidates"][0]["url"]
                             self.all_images_obtained.append(url)
+                    elif img["video_versions"]:
+                        url = img["video_versions"][0]["url"]
                     else:
                         url = img["image_versions2"]["candidates"][0]["url"]
                     self.all_images_obtained.append(url)
@@ -55,14 +57,30 @@ class InstagramScraper:
                 print(f"Found: {len(self.all_images_obtained)}")
                 return self.all_images_obtained
 
-    def download_all_images_link(self):
+    def download_all_media_links(self):
+        pre_urls = list(set(self.all_images_obtained))
         for x, post in enumerate(self.all_images_obtained):
-            path_to_save = f"{self.user_name}/photos"
+            path_to_save = f"{self.user_name}/media"
             if os.path.exists(path_to_save):
                 pass
             else:
                 os.makedirs(path_to_save)
-            with open(os.path.join(f"{path_to_save}", f"{x}.png"), "wb") as file:
-                file.write(requests.get(post).content)
+            format_file = requests.get(post).headers["content-type"]
+            match format_file:
+                case "image/jpeg":
+                    with open(f"{path_to_save}/{x}.png", "wb") as f:
+                        f.write(requests.get(post).content)
+                case "video/mp4":
+                    with open(f"{path_to_save}/{x}.mp4", "wb") as f:
+                        f.write(requests.get(post).content)
+                case _:
+                    print(f"The format was not recognized: {format_file}")
 
+scraper = InstagramScraper(
+    sessionid="YOURSESSIONID",
+    csrftoken="YOURTOKEN",
+    user_name="profile_to_scrape"
+)
+scraper.get_all_media_links() # <- Gets all the links
+scraper.download_all_media_links() # <- Download all the media
 
