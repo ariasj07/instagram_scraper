@@ -5,7 +5,7 @@ import json
 
 class InstagramScraper:
     def __init__(self, sessionid: str, csrftoken: str, user_name: str):
-        self.doc_id = "32435654999367421"
+        self.doc_id = "32435654999367421" # This may change in the future
         self.session = requests.Session()
         self.base_url = "https://www.instagram.com/graphql/query"
         self.cookies = {
