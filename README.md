@@ -38,6 +38,4 @@ scraper.download_all_media_links() # <- Download all the media
 
 And it will save all the photos, if a post is a carrusel of photos, all the photos are going to be downloaded also.
 
-Things to consider:
-
-Currently, I'm working in the option to also download the videos, since it doesn't have it yet, when there's a video, is going to save the thumbnail of the video
+Update 13/09/2025: Video support
