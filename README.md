@@ -32,8 +32,8 @@ As you can see, you need to put these values, and the username to fetch posts
 Lastly call the method
 
 ```python
-scraper.get_all_images_link() # Return an array with al the images link 
-scraper.download_all_images_link() # it'll create a folder with the username and whithin, all the photos
+scraper.get_all_media_links() # <- Gets all the links
+scraper.download_all_media_links() # <- Download all the media
 ```
 
 And it will save all the photos, if a post is a carrusel of photos, all the photos are going to be downloaded also.
