@@ -1,41 +1,74 @@
 # Instagram Scraper
-**Instagram Scraper** is a Python Script to get all the images from a profile
-> This project is going to be upgraded and new features will be added soon
 
-### ¿How does it work?
-The script directly makes a POST to the API, to the profile you indicate, if the profile is private, it will only work if **you follow the profile** otherwise, it won't work
+Instagram Scraper es un script en Python que automatiza la obtención y descarga de todas las publicaciones disponibles en un perfil de Instagram al que tengas acceso. Utiliza la API privada que alimenta la web de Instagram, por lo que resulta ideal para crear copias de seguridad personales o para analizar contenido sin depender de herramientas de terceros.
 
-### ¿How to use it?
-You need to follow a few steps
-- Go to Instagram
-- Open "Storage" in the web console (Usually by Pressing F12)
-- Go to the Cookies Section, select the one that refers to instagram.com
-- Get the "csrftoken" and the "sessionid"
-**Those tokens are eventually going to expire** so, sometimes depending on your browser, and activity it'll tell you when they are going to expire. (Usually in about 1-2 hours)
-<img width="1024" height="493" alt="imagen" src="https://github.com/user-attachments/assets/8c92c258-4310-4212-bd7b-af492079153a" />
+## Características principales
+- Extrae todos los enlaces de imágenes y vídeos publicados en el perfil indicado.
+- Detecta automáticamente carruseles y descarga cada elemento por separado.
+- Guarda los archivos en una estructura de carpetas sencilla (`<usuario>/media`).
+- Funciona con perfiles públicos y privados (siempre que sigas al perfil privado y tus cookies sean válidas).
 
-Once you have them, create an instance of the class, it needs 3 arguments 
+## Requisitos previos
+- Python 3.10 o superior.
+- `pip` para instalar dependencias.
+- La biblioteca [`requests`](https://requests.readthedocs.io/) instalada en tu entorno.
+- Una cuenta de Instagram con la que puedas iniciar sesión en la versión web para obtener las cookies `sessionid` y `csrftoken`.
 
-<img width="394" height="243" alt="imagen" src="https://github.com/user-attachments/assets/2dc93593-0453-490d-950f-89ec904f054e" />
+## Instalación rápida
+```bash
+# Clona el repositorio
+git clone https://github.com/<tu-usuario>/instagram_scraper.git
+cd instagram_scraper
 
+# (Opcional) crea y activa un entorno virtual
+python -m venv .venv
+source .venv/bin/activate  # En Windows usa: .venv\Scripts\activate
 
-> ```count``` parameter it's not longer required
-
-
-As you can see, you need to put these values, and the username to fetch posts
-
-- sessionid: Your cookie
-- csrftoken: Your cookie
-- user_name: The profile you want to download all the images (if private, you **must** follow it)
-
-
-Lastly call the method
-
-```python
-scraper.get_all_media_links() # <- Gets all the links
-scraper.download_all_media_links() # <- Download all the media
+# Instala la dependencia necesaria
+pip install requests
 ```
 
-And it will save all the photos, if a post is a carrusel of photos, all the photos are going to be downloaded also.
+## Configuración de credenciales
+El script requiere dos cookies válidas para autenticarte frente a Instagram:
 
-Update 13/09/2025: Video support
+- **`sessionid`**: identifica tu sesión iniciada.
+- **`csrftoken`**: token asociado a tu sesión para proteger peticiones.
+
+Puedes obtener estos valores desde las herramientas de desarrollador de tu navegador (pestaña *Application* o *Storage* → *Cookies* → `https://www.instagram.com`). Consulta la [guía detallada](docs/guia_de_uso.md#2-obtener-las-cookies-necesarias) para ver el proceso paso a paso.
+
+> ⚠️ Las cookies expiran con el tiempo. Si recibes errores de autenticación, repite el proceso y reemplaza los valores.
+
+## Ejemplo mínimo de uso
+```python
+from instagram import InstagramScraper
+
+scraper = InstagramScraper(
+    sessionid="TU_SESSION_ID",
+    csrftoken="TU_CSRF_TOKEN",
+    user_name="usuario_a_descargar"
+)
+
+# Recupera todos los enlaces disponibles en la cronología
+links = scraper.get_all_media_links()
+print(f"Se encontraron {len(links)} elementos")
+
+# Descarga cada archivo en <usuario>/media
+scraper.download_all_media_links()
+```
+
+Si prefieres no exponer las cookies en el código, puedes almacenarlas en variables de entorno y leerlas con `os.getenv` antes de instanciar la clase.
+
+## Estructura de salida
+Por defecto, los archivos descargados se guardan en la ruta `<usuario>/media`. Las imágenes se exportan con extensión `.png` y los vídeos con extensión `.mp4`. Si Instagram devuelve un formato desconocido, el script mostrará un mensaje indicando que el tipo de contenido no fue reconocido.
+
+## Documentación adicional
+- [Guía de uso paso a paso](docs/guia_de_uso.md)
+- [Referencia de la clase `InstagramScraper`](docs/api_reference.md)
+
+## Limitaciones y aviso legal
+- Instagram puede modificar la API privada en cualquier momento, lo que dejaría de funcionar el `doc_id` utilizado internamente.
+- El uso de este proyecto debe respetar los términos de servicio de Instagram y la legislación vigente sobre protección de datos y derechos de autor.
+- Descarga únicamente contenido para el que tengas permiso expreso.
+
+## Contribuciones y soporte
+Las contribuciones son bienvenidas mediante *pull requests*. Si encuentras un error o necesitas una mejora, abre un *issue* describiendo los detalles del problema y los pasos para reproducirlo. Para dudas rápidas consulta primero la documentación incluida en la carpeta [`docs`](docs/).
